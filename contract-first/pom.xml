@@ -8,8 +8,8 @@
         <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.rkaaya.jsbs</groupId>
-    <artifactId>contract-first</artifactId>
+    <groupId>com.rkaaya.jsbs.contract-first</groupId>
+    <artifactId>questforge-chronicles</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>contract-first</name>
     <description>contract-first</description>
