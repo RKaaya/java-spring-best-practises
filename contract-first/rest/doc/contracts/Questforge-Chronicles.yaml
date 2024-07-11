@@ -35,7 +35,10 @@ paths:
                 $ref: '#/components/schemas/Adventurer'
         400:
           description: Invalid parameters are supplied
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicErrorModel'
   /quest/{id}:
     get:
       tags:
@@ -60,7 +63,10 @@ paths:
                 $ref: '#/components/schemas/Quest'
         400:
           description: Invalid parameters are supplied
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicErrorModel'
 components:
   responses:
     BadRequest:

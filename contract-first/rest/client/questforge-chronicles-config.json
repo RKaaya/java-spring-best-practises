@@ -1,0 +1,11 @@
+{
+  "modelPackage": "com.rkaaya.jsbs.contract-first.questforge-chronicles.server.model",
+  "apiPackage": "com.rkaaya.jsbs.contract-first.questforge-chronicles.server.api",
+  "useRuntimeException": true,
+  "dataLibrary": "java8",
+  "hideGenerationTimeStamp": true,
+  "openApiNullable": false,
+  "generateAliasAsModel": true,
+  "useJakartaEe": true,
+  "useSpringBoot3": true
+}
