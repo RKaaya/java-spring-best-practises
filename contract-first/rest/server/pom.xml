@@ -4,43 +4,129 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.rkaaya.jsbs.contract-first</groupId>
+    <parent>
+        <groupId>com.rkaaya.jsbs.contract-first</groupId>
+        <artifactId>questforge-chronicles</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <artifactId>rest-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <generated.sources>${project.build.directory}/generated-sources</generated.sources>
+        <questforge.contract.version>0.0.1-SNAPSHOT</questforge.contract.version>
+        <resource.dir>${project.build.directory}/contract</resource.dir>
+        <openapi.resource.dir>${resource.dir}/openapi</openapi.resource.dir>
+        <openapi.target.dir>${project.build.directory}/openapi</openapi.target.dir>
+        <openapi.questforge-chronicles.config.name>${basedir}/questforge-chronicles-config.json</openapi.questforge-chronicles.config.name>
+    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.3.0</version>
-            <type>maven-plugin</type>
+            <groupId>com.rkaaya.jsbs.contract-first</groupId>
+            <artifactId>rest-doc</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>create-distribution</id>
-                        <phase>package</phase>
+                        <id>add-generated-source</id>
+                        <phase>process-sources</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>add-source</goal>
                         </goals>
                         <configuration>
-                            <descriptors>
-                                <descriptor>${project.basedir}/package-definition.xml</descriptor>
-                            </descriptors>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <attach>true</attach>
+                            <sources>
+                                <source>${generated.sources}</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>unpack-code-generation-requirements</id>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>rest-doc</artifactId>
+                                    <version>${questforge.contract.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${openapi.resource.dir}</outputDirectory>
+                                    <includes>**/*.yaml</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.5.0</version>
+                <executions>
+                    <execution>
+                        <id>questforge-chronicles-server</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${openapi.resource.dir}/Questforge-Chronicles.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <supportingFilesToGenerate>
+                                ApiUtil.java
+                            </supportingFilesToGenerate>
+                            <configurationFile>${openapi.questforge-chronicles.config.name}</configurationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-generated-server</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <outputDirectory>${generated.sources}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${openapi.target.dir}/src/main/java/com</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
