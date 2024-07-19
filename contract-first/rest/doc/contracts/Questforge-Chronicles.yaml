@@ -84,7 +84,7 @@ components:
       properties:
         id:
           type: integer
-          format: int32
+          format: int64
           description: Adventurer Id
         name:
           type: string
@@ -92,15 +92,13 @@ components:
         background:
           type: string
           description: What need to know about this Adventurer
-        quests:
-          type: array
-          items:
-            $ref: '#/components/schemas/Quest'
+        activeQuest:
+          $ref: '#/components/schemas/Quest'
       example:
         id: 97
         name: "Salazar"
         description: "A pirate from the moon."
-    
+
     Quest:
       required:
         - id

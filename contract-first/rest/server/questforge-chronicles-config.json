@@ -1,11 +1,21 @@
 {
-  "modelPackage": "com.rkaaya.jsbs.contract-first.questforge-chronicles.server.model",
-  "apiPackage": "com.rkaaya.jsbs.contract-first.questforge-chronicles.server.api",
+  "modelPackage": "com.rkaaya.jsbs.contract.first.questforge.chronicles.server.model",
+  "apiPackage": "com.rkaaya.jsbs.contract.first.questforge.chronicles.server.api",
   "useRuntimeException": true,
   "dataLibrary": "java8",
   "hideGenerationTimeStamp": true,
   "openApiNullable": false,
   "generateAliasAsModel": true,
   "template": "spring-boot",
-  "useSpringBoot3": true
+  "useSpringBoot3": true,
+  "generatedConstructorWithRequiredArgs": false,
+  "interfaceOnly": true,
+  "useSpringControllers": true,
+  "useTags": true,
+  "skipDefaultInterface": true,
+  "useJakartaEe": true,
+  "useResponseEntity": true,
+  "schemaMappings": {
+    "Quest": "com.rkaaya.jsbs.contract.first.domain.model.Quest"
+  }
 }

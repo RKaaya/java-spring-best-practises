@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: application-client
+
+server:
+  port: 8082
+
+questforge:
+  chronicles:
+    api:
+      url: "http://localhost:8081"
